@@ -6,7 +6,8 @@ edition = "2021"
 
 [dependencies]
 reqwest = { version = "0.11.11", features = ["json", "blocking"] }
-tokio = { version = "1", features = ["full"] }
+actix-files = "0.6.2"
+actix-web = "4.1.0"
 html_parser = "0.6.3"
 select = "0.5.0"
 serde = { version = "1.0.142", features = ["derive"] }
