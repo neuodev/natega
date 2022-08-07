@@ -5,7 +5,7 @@ use actix_web::{App, HttpServer};
 use colored::Colorize;
 use result::{save_batch, StudentResult};
 use std::thread;
-use std::{env, process};
+use std::env;
 
 #[actix_web::main]
 async fn main() {
