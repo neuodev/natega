@@ -62,15 +62,22 @@ async fn main() {
         }
     });
 
-    println!("Server running at 0.0.0.0:8080");
-    HttpServer::new(|| {
-        App::new().service(fs::Files::new("/static", "./data").show_files_listing())
-    })
-    .bind("0.0.0.0:8080")
-    .unwrap()
-    .run()
-    .await
-    .unwrap();
+    let should_run_server = env::var("RUST_RUN_SERVER")
+        .unwrap()
+        .parse::<bool>()
+        .unwrap();
+
+    if should_run_server == true {
+        println!("Server running at 0.0.0.0:8080");
+        HttpServer::new(|| {
+            App::new().service(fs::Files::new("/static", "./data").show_files_listing())
+        })
+        .bind("0.0.0.0:8080")
+        .unwrap()
+        .run()
+        .await
+        .unwrap();
+    }
 
     handler.join().unwrap();
 }
