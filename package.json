@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "cargo watch -x \"run --bin natega\"",
     "fmt": "rustfmt.exe ./src/main.rs --edition 2021",
-    "start": "cargo run"
+    "start": "cross-env RUST_START=103000  cross-env RUST_END=300000 cross-env RUST_RUN_SERVER=true cargo run"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }

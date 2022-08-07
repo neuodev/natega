@@ -1,10 +1,15 @@
 mod result;
+mod load;
+use crate::load::load_results;
 use crate::result::get_start_seat_no;
 use actix_cors::Cors;
 use actix_files as fs;
-use actix_web::{App, HttpServer};
+use actix_web::http::header::ContentType;
+use actix_web::{Responder, HttpResponse};
+use actix_web::{App, HttpServer, get, web};
 use colored::Colorize;
 use result::{save_batch, StudentResult};
+use serde::{Serialize, Deserialize};
 use std::env;
 use std::thread;
 
@@ -69,15 +74,16 @@ async fn main() {
         .unwrap();
 
     if should_run_server == true {
-        println!("Server running at http://159.223.98.29");
+        println!("Server running at http://0.0.0.0");
         
         HttpServer::new(|| {
             let cors = Cors::default().allow_any_origin();
             App::new()
                 .wrap(cors)
                 .service(fs::Files::new("/static", "./data").show_files_listing())
+                .service(search)
         })
-        .bind("159.223.98.29:80")
+        .bind("0.0.0.0:80")
         .unwrap()
         .run()
         .await
@@ -85,4 +91,15 @@ async fn main() {
     }
 
     handler.join().unwrap();
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct SerachQuery {
+    seat_no: i32
+}
+
+#[get("/search")]
+async fn search(query: web::Query<SerachQuery>) -> impl Responder{
+    let all_results = load_results();
+    HttpResponse::Ok().content_type(ContentType::json()).body(serde_json::to_string_pretty(&all_results).unwrap())
 }
