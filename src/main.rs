@@ -1,11 +1,12 @@
 mod result;
 use crate::result::get_start_seat_no;
+use actix_cors::Cors;
 use actix_files as fs;
 use actix_web::{App, HttpServer};
 use colored::Colorize;
 use result::{save_batch, StudentResult};
-use std::thread;
 use std::env;
+use std::thread;
 
 #[actix_web::main]
 async fn main() {
@@ -69,8 +70,12 @@ async fn main() {
 
     if should_run_server == true {
         println!("Server running at http://159.223.98.29");
+        
         HttpServer::new(|| {
-            App::new().service(fs::Files::new("/static", "./data").show_files_listing())
+            let cors = Cors::default().allow_any_origin();
+            App::new()
+                .wrap(cors)
+                .service(fs::Files::new("/static", "./data").show_files_listing())
         })
         .bind("159.223.98.29:80")
         .unwrap()
