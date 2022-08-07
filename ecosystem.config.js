@@ -33,6 +33,7 @@ module.exports = {
     },
     {
       ...common,
+      name: "Natega 4",
       env_production: {
         RUST_START: 700_001,
         RUST_END: 900_000,
@@ -40,6 +41,7 @@ module.exports = {
     },
     {
       ...common,
+      name: "Natega 5",
       env_production: {
         RUST_START: 900_001,
         RUST_END: 937_001,

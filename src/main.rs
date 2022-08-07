@@ -56,7 +56,7 @@ fn main() {
         }
 
         if start >= end {
-            println!("{}", format!("Donw").bold().on_green());
+            println!("{}", format!("Done").bold().on_green());
             process::exit(0);
         }
     }
