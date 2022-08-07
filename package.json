@@ -1,0 +1,14 @@
+{
+  "name": "natega",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cargo watch -x \"run --bin natega\"",
+    "fmt": "rustfmt.exe ./src/main.rs --edition 2021",
+    "start": "cargo run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
