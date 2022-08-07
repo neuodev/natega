@@ -68,11 +68,11 @@ async fn main() {
         .unwrap();
 
     if should_run_server == true {
-        println!("Server running at 0.0.0.0:8080");
+        println!("Server running at http://159.223.98.29");
         HttpServer::new(|| {
             App::new().service(fs::Files::new("/static", "./data").show_files_listing())
         })
-        .bind("0.0.0.0:8080")
+        .bind("159.223.98.29:80")
         .unwrap()
         .run()
         .await
