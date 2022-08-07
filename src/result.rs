@@ -3,9 +3,9 @@ use select::document::Document;
 use select::node::Node;
 use select::predicate::Attr;
 use serde::{Deserialize, Serialize};
+use std::env;
 use std::path::Path;
 use std::{fs, time::Duration};
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StudentResult {
@@ -118,11 +118,10 @@ impl StudentResult {
 }
 
 pub fn save_batch(filename: &str, batch: &mut Vec<StudentResult>) {
-
     if Path::new("./data").exists() == false {
         fs::create_dir("./data").unwrap();
     }
-    
+
     let path = Path::new(filename);
     if path.exists() == false {
         fs::write(path, serde_json::to_string(&batch).unwrap()).unwrap();
@@ -140,4 +139,28 @@ pub fn save_batch(filename: &str, batch: &mut Vec<StudentResult>) {
     }
 
     println!("{}", format!("Saved {}", filename).bold().on_green())
+}
+
+pub fn get_start_seat_no(filename: &str) -> i32 {
+    let path = Path::new(filename);
+    let start = env::var("RUST_START")
+        .expect("Missing start number")
+        .parse::<i32>()
+        .unwrap();
+    if path.exists() == false {
+        return start;
+    }
+
+    let json_string = fs::read_to_string(filename).expect("Unable to read file");
+
+    if json_string.is_empty() {
+        return start
+    }
+
+    let results: Vec<StudentResult> =
+    serde_json::from_str(json_string.as_str()).unwrap();
+
+    let last = results.last().unwrap();
+
+    last.seat_no.parse::<i32>().unwrap()
 }

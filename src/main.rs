@@ -1,26 +1,23 @@
 mod result;
 use colored::Colorize;
 use result::{save_batch, StudentResult};
-use std::{env, fs, process};
-use std::path::Path;
+use std::{env, process};
+
+use crate::result::get_start_seat_no;
 
 fn main() {
-    let mut start = env::var("RUST_START")
-        .expect("Missing start number")
-        .parse::<i32>()
-        .unwrap();
-
     let end = env::var("RUST_END")
         .expect("Missing end number")
         .parse::<i32>()
         .unwrap();
+    let filename = format!("./data/{}.json", end);
+    let mut start = get_start_seat_no(filename.as_str());
 
-    println!("{}", format!("Stat: {start} -> End: {end}").bold().on_cyan());
+    println!(
+        "{}",
+        format!("Stat: {start} -> End: {end}").bold().on_cyan()
+    );
 
-    let output_path = Path::new("./data");
-    if output_path.exists() == true {
-        fs::remove_dir_all(output_path).expect("Unable to delete output data dir.",);
-    }
 
     let mut results = vec![];
     loop {
@@ -29,6 +26,8 @@ fn main() {
             println!("{}", e);
             String::new()
         });
+
+        start += 1;
 
         if res.is_empty() {
             continue;
@@ -48,8 +47,6 @@ fn main() {
                 format!("{} invalid response", start).bold().on_bright_red()
             );
         }
-
-        start += 1;
 
         if start % 10 == 0 {
             save_batch(format!("./data/{end}.json").as_str(), &mut results);
