@@ -154,11 +154,10 @@ pub fn get_start_seat_no(filename: &str) -> i32 {
     let json_string = fs::read_to_string(filename).expect("Unable to read file");
 
     if json_string.is_empty() {
-        return start
+        return start;
     }
 
-    let results: Vec<StudentResult> =
-    serde_json::from_str(json_string.as_str()).unwrap();
+    let results: Vec<StudentResult> = serde_json::from_str(json_string.as_str()).unwrap();
 
     let last = results.last().unwrap();
 
