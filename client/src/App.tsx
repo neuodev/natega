@@ -1,10 +1,15 @@
 import {
+  Alert,
+  AlertTitle,
   AppBar,
   Button,
   CircularProgress,
   Container,
   createTheme,
+  Stack,
+  styled,
   ThemeProvider,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
@@ -67,10 +72,22 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const res = await Promise.all(
-        files.map((f) => axios.get(`${SERVER}/static/${f}`))
-      );
-      console.log(res);
+      setLoading(true);
+      try {
+        const res = await Promise.all(
+          files.map((f) => axios.get(`${SERVER}/static/${f}`))
+        );
+        const all: Result[] = [];
+        res.forEach((resp) => {
+          all.push(...resp.data);
+        });
+        console.log(all);
+      } catch (error) {
+        const err = error as Error;
+        setError(err.message);
+      }
+
+      setLoading(false);
     })();
   }, []);
   return (
@@ -91,12 +108,40 @@ function App() {
           </Container>
         </AppBar>
 
-        <Box sx={{ mt: "68px" }}>
-          <Search />
+        <Box sx={{ mt: "68px", height: "100vh" }}>
+          {loading ? (
+            <Centered>
+              <CircularProgress />
+
+              <Typography variant="h6" mt="8px">
+                Please wait
+              </Typography>
+              <Typography variant="body2" mt="8px">
+                Fetching data for students...
+              </Typography>
+            </Centered>
+          ) : error !== null ? (
+            <Centered>
+              <Alert severity="error">
+                <AlertTitle>Error!</AlertTitle>
+                {error}
+              </Alert>
+            </Centered>
+          ) : (
+            <Search />
+          )}
         </Box>
       </Box>
     </ThemeProvider>
   );
 }
+
+const Centered = styled(Box)({
+  height: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+});
 
 export default App;
