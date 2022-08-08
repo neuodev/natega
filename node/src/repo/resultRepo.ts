@@ -9,6 +9,15 @@ class ResultUOW {
     return StudentResult.findOne({ seatNo });
   }
 
+  async find(pageNum: number, pageSize: number) {
+    let count = await StudentResult.countDocuments();
+    const results = await StudentResult.find({})
+      .sort({ total: -1 })
+      .limit(pageSize)
+      .skip(pageSize * (pageNum - 1));
+    return { results, pages: Math.ceil(count / pageSize) };
+  }
+
   async summary() {
     let numOfResults = await StudentResult.count();
     let maxResult = await StudentResult.find({}).sort({ total: -1 }).limit(1);
