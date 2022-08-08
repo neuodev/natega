@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 export const SEPERATOR = "##";
-export const basicInfoMap = [
+export const basicInfoKeys = [
   "name",
   "school",
   "org",
@@ -8,7 +8,7 @@ export const basicInfoMap = [
   "kind",
   "branch",
 ];
-export const gradesMap = [
+export const gradesKeys = [
   "arabic",
   "first_lang",
   "second_lang",
@@ -22,6 +22,9 @@ export const gradesMap = [
   "biology",
   "geology",
   "physics",
+  "religious_edu",
+  "national_edu",
+  "eco_and_stats",
 ];
 const schema = new mongoose.Schema({
   seatNo: {
@@ -58,13 +61,13 @@ const schema = new mongoose.Schema({
   // biology: String,
   // geology: String,
   // physics: String,
+  // religiousEdu: String,
+  // nationalEdu: String,
+  // ecoAndStats: String,
   total: {
     type: Number,
     required: true,
   },
-  religiousEdu: String,
-  nationalEdu: String,
-  ecoAndStats: String,
   percentage: Number,
 });
 

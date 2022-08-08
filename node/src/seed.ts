@@ -70,22 +70,31 @@ export async function seed() {
           .bold
       );
       await StudentResult.insertMany(
-        Object.values(id2Result).map(
-          (r: Result) => ({
-            ...r,
-            firstLang: r.first_lang,
-            secondLang: r.second_lang,
-            pureMath: r.pure_math,
-            appliedMath: r.applied_math,
-            religiousEdu: r.religious_edu,
-            nationalEdu: r.national_edu,
-            ecoAndStats: r.eco_and_stats,
-            seatNo: r.seat_no,
-          }),
-          {
-            ordered: false,
-          }
-        )
+        Object.values(id2Result)
+          .map((r) => {
+            return {
+              ...resultRepo.encode(r),
+              seat_no: r.seat_no,
+              total: r.total,
+              percentage: r.percentage,
+            };
+          })
+          .map(
+            (r: Result) => ({
+              ...r,
+              firstLang: r.first_lang,
+              secondLang: r.second_lang,
+              pureMath: r.pure_math,
+              appliedMath: r.applied_math,
+              religiousEdu: r.religious_edu,
+              nationalEdu: r.national_edu,
+              ecoAndStats: r.eco_and_stats,
+              seatNo: r.seat_no,
+            }),
+            {
+              ordered: false,
+            }
+          )
       );
       console.log(`${file} saved successfully`.underline.green.bold);
     } catch (error) {

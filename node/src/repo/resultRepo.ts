@@ -1,6 +1,6 @@
 import StudentResult, {
-  basicInfoMap,
-  gradesMap,
+  basicInfoKeys,
+  gradesKeys,
   SEPERATOR,
 } from "../models/StudentResult";
 import { Result } from "../seed";
@@ -75,6 +75,7 @@ class ResultUOW {
       status,
       kind,
       branch,
+      // >>>>>>>>>>>>>>>>>>>>>>>
       arabic,
       first_lang,
       second_lang,
@@ -88,6 +89,9 @@ class ResultUOW {
       biology,
       geology,
       physics,
+      religious_edu,
+      national_edu,
+      eco_and_stats,
     } = result;
     let basicInfo = [name, school, org, status, kind, branch].join(SEPERATOR);
     let grades = [
@@ -104,6 +108,9 @@ class ResultUOW {
       biology,
       geology,
       physics,
+      religious_edu,
+      national_edu,
+      eco_and_stats,
     ].join(SEPERATOR);
 
     return {
@@ -119,10 +126,10 @@ class ResultUOW {
     let result: { [key: string]: string } = {};
 
     info.forEach((val, idx) => {
-      result[basicInfoMap[idx]] = val;
+      result[basicInfoKeys[idx]] = val;
     });
     allGrades.forEach((val, idx) => {
-      result[gradesMap[idx]] = val;
+      result[gradesKeys[idx]] = val;
     });
 
     return result;
