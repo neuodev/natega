@@ -26,7 +26,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SERVER } from "../constants";
 
-type Result = {
+export type Result = {
   name: string;
   school: string;
   org: string;
@@ -54,32 +54,32 @@ type Result = {
   percentage: string;
 };
 
-const labels = [
-  "الاسم",
-  "المدرسه",
-  "الجهه/ اليئهه",
-  "الحاله",
-  "نوعية التعليم",
-  "الفرع",
-  "اللغه العربيه",
-  "اللغه الاول",
-  "اللغه الثانيه",
-  "الرياضه اليحته",
-  "الرياضه التطبيقيه",
-  "التاريخ",
-  "الجغرفيا",
-  "الفلسفه",
-  "النفسيه",
-  "الكيمياء",
-  "الأحياء",
-  "الجيولوجيا وعلوم البيئة",
-  "الفيزياء",
-  "مجموع الدرجات",
-  "التربية الدينية",
-  "التربية الوطنية",
-  "الاقتصاد والإحصاء",
-  "رقم الجلوس",
-  "النسبه",
+export const labels = [
+  { title: "الاسم", width: "200px" },
+  { title: "المدرسه", width: "180px" },
+  { title: "الجهه/ اليئهه", width: "100px" },
+  { title: "الحاله", width: "100px" },
+  { title: "نوعية التعليم", width: "100px" },
+  { title: "الفرع", width: "100px" },
+  { title: "اللغه العربيه", width: "80px" },
+  { title: "اللغه الاول", width: "80px" },
+  { title: "اللغه الثانيه", width: "80px" },
+  { title: "الرياضه اليحته", width: "80px" },
+  { title: "الرياضه التطبيقيه", width: "80px" },
+  { title: "التاريخ", width: "80px" },
+  { title: "الجغرفيا", width: "80px" },
+  { title: "الفلسفه", width: "80px" },
+  { title: "النفسيه", width: "80px" },
+  { title: "الكيمياء", width: "80px" },
+  { title: "الأحياء", width: "80px" },
+  { title: "الجيولوجيا وعلوم البيئة", width: "80px" },
+  { title: "الفيزياء", width: "80px" },
+  { title: "مجموع الدرجات", width: "80px" },
+  { title: "التربية الدينية", width: "80px" },
+  { title: "التربية الوطنية", width: "80px" },
+  { title: "الاقتصاد والإحصاء", width: "80px" },
+  { title: "رقم الجلوس", width: "80px" },
+  { title: "النسبه", width: "80px" },
 ];
 
 function Search() {
@@ -109,9 +109,9 @@ function Search() {
     }
     setLoading(false);
   };
-  console.log({ result });
+
   return (
-    <Box sx={{ mt: "100px" }}>
+    <Box>
       <Container
         maxWidth="sm"
         sx={{
@@ -240,7 +240,7 @@ function Search() {
                       <TableCell scope="row" align="right">
                         {val}
                       </TableCell>
-                      <TableCell>{labels[idx]}</TableCell>
+                      <TableCell>{labels[idx]?.title}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
