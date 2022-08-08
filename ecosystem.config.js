@@ -1,5 +1,5 @@
 const common = {
-  script: "./target/release/natega.exe",
+  script: "./target/release/natega",
   exec_interpreter: "none",
   exec_mode: "fork_mode",
   autorestart: false,
