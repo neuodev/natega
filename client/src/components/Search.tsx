@@ -14,8 +14,15 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SERVER } from "../constants";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 type Result = {
   name: string;
@@ -66,6 +73,7 @@ function Search() {
     }
     setLoading(false);
   };
+
   return (
     <Box sx={{ mt: "68px", height: "calc(100vh - 68px)" }}>
       <Box
@@ -124,7 +132,53 @@ function Search() {
           </Alert>
         </Centered>
       ) : (
-        <Box></Box>
+        result && (
+          <Centered sx={{ flexDirection: "row", alignItems: "flex-start" }}>
+            <TableContainer component={Paper} sx={{ maxWidth: "400px" }}>
+              <Table aria-label="table">
+                <TableBody>
+                  {Object.entries(result)
+                    .slice(0, 5)
+                    .concat(Object.entries(result).slice(-3))
+                    .map((entery) => (
+                      <TableRow
+                        key={entery[0]}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {entery[0]}
+                        </TableCell>
+                        <TableCell align="right">{entery[1]}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TableContainer component={Paper} sx={{ maxWidth: "400px" }}>
+              <Table aria-label="table">
+                <TableBody>
+                  {Object.entries(result)
+                    .slice(5)
+                    .map((entery) => (
+                      <TableRow
+                        key={entery[0]}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {entery[0]}
+                        </TableCell>
+                        <TableCell align="right">{entery[1]}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Centered>
+        )
       )}
     </Box>
   );
