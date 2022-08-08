@@ -18,12 +18,15 @@ import Search from "./components/Search";
 
 const theme = createTheme({
   palette: {
-    mode: "dark",
+    mode: "light",
     primary: {
-      main: "#334155",
+      main: "#2563eb",
     },
     secondary: {
       main: "#4ade80",
+    },
+    error: {
+      main: "#ef4444",
     },
   },
 });
@@ -57,14 +60,8 @@ type Result = {
   percentage: string;
 };
 
-const SERVER = "http://159.223.98.29";
-const files = [
-  "300000.json",
-  "937001.json",
-  "500000.json",
-  "900000.json",
-  "700000.json",
-];
+const SERVER = "http://64.227.26.187:8000/api/v1";
+
 function App() {
   let [results, setResults] = useState<Result[]>([]);
   let [loading, setLoading] = useState<boolean>(false);
@@ -72,22 +69,21 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
-      try {
-        const res = await Promise.all(
-          files.map((f) => axios.get(`${SERVER}/static/${f}`))
-        );
-        const all: Result[] = [];
-        res.forEach((resp) => {
-          all.push(...resp.data);
-        });
-        console.log(all);
-      } catch (error) {
-        const err = error as Error;
-        setError(err.message);
-      }
-
-      setLoading(false);
+      // setLoading(true);
+      // try {
+      //   const res = await Promise.all(
+      //     files.map((f) => axios.get(`${SERVER}/static/${f}`))
+      //   );
+      //   const all: Result[] = [];
+      //   res.forEach((resp) => {
+      //     all.push(...resp.data);
+      //   });
+      //   console.log(all);
+      // } catch (error) {
+      //   const err = error as Error;
+      //   setError(err.message);
+      // }
+      // setLoading(false);
     })();
   }, []);
   return (
