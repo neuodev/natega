@@ -44,7 +44,7 @@ const schema = new mongoose.Schema({
     required: true,
   },
   grades: {
-    // arabic##firstLang##secondLang##pureMath##appliedMath##history##geography##philosophy##pychology##chemistry##biology##geology##physics
+    // arabic##firstLang##secondLang##pureMath##appliedMath##history##geography##philosophy##pychology##chemistry##biology##geology##physics##religious_edu##national_edu##eco_and_stats
     type: String,
     required: true,
   },

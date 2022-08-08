@@ -80,15 +80,8 @@ export async function seed() {
             };
           })
           .map(
-            (r: Result) => ({
+            (r) => ({
               ...r,
-              firstLang: r.first_lang,
-              secondLang: r.second_lang,
-              pureMath: r.pure_math,
-              appliedMath: r.applied_math,
-              religiousEdu: r.religious_edu,
-              nationalEdu: r.national_edu,
-              ecoAndStats: r.eco_and_stats,
               seatNo: r.seat_no,
             }),
             {
