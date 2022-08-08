@@ -1,14 +1,15 @@
 import axios from "axios";
 import StudentResult from "./models/StudentResult";
 import resultRepo from "./repo/resultRepo";
+import "colors";
 
 const SERVER = "http://159.223.98.29";
 const files = [
-  //   "300000.json",
+  "300000.json",
   "937001.json",
-  //   "500000.json",
-  //   "900000.json",
-  //   "700000.json",
+  "500000.json",
+  "900000.json",
+  "700000.json",
 ];
 
 type Result = {
@@ -41,12 +42,17 @@ type Result = {
 
 export async function seed() {
   console.log(`Fetching latest results from ${SERVER}`.cyan.underline.bold);
-  try {
-    for (let file of files) {
+  for (let file of files) {
+    console.log(`File ${file}`.cyan.underline.bold);
+    try {
       const [{ data }, seatNos] = await Promise.all([
-        axios.get(`${SERVER}/static/${file}`),
+        axios.get(`${SERVER}/static/${file}`, {
+          maxContentLength: Infinity,
+          maxBodyLength: Infinity,
+        }),
         resultRepo.getUniqueSeatNo(),
       ]);
+
       console.log(
         `Found ${seatNos.length} unique seat numbers`.cyan.underline.bold
       );
@@ -81,11 +87,11 @@ export async function seed() {
         )
       );
       console.log(`${file} saved successfully`.underline.green.bold);
+    } catch (error) {
+      console.log("Failed get latest resutls".underline.red.bold);
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else if (typeof error == "string") console.log(error);
     }
-  } catch (error) {
-    console.log("Failed get latest resutls".underline.red.bold);
-    if (error instanceof Error) {
-      console.log(error.message);
-    } else if (typeof error == "string") console.log(error);
   }
 }
