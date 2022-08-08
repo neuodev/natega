@@ -8,7 +8,8 @@ export default async function connectDB() {
       console.error("MongoDB connection uri is required");
       process.exit(1);
     }
-    const conn = await mongoose.connect(uri);
+
+    const conn = await mongoose.connect(uri, {});
     console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
   } catch (error) {
     if (error instanceof Error)
