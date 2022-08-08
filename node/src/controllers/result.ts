@@ -40,7 +40,7 @@ export const rank = asyncHandler(
 
     if (!result) return next(new ResposneError("Not found", 404));
 
-    let rank = await resultRepo.rank(result.total, result.seatNo);
+    let rank = await resultRepo.rank(result.seatNo);
     res.status(200).json({ rank });
   }
 );

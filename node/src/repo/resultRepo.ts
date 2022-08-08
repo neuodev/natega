@@ -48,7 +48,7 @@ class ResultUOW {
     console.log("Database flushed".green.underline.bold);
   }
 
-  async rank(total: number, seatNo: number) {
+  async rank(seatNo: number) {
     return await StudentResult.aggregate([
       {
         $setWindowFields: {
