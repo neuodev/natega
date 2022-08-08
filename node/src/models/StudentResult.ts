@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-  seatNno: {
+  seatNo: {
     type: String,
     required: true,
     unique: true,

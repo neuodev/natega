@@ -1,5 +1,6 @@
 import axios from "axios";
 import StudentResult from "./models/StudentResult";
+import resultRepo from "./repo/resultRepo";
 
 const SERVER = "http://159.223.98.29";
 const files = [
@@ -42,9 +43,27 @@ export async function seed() {
   console.log(`Fetching latest results from ${SERVER}`.cyan.underline.bold);
   try {
     for (let file of files) {
-      const { data } = await axios.get(`${SERVER}/static/${file}`);
+      const [{ data }, seatNos] = await Promise.all([
+        axios.get(`${SERVER}/static/${file}`),
+        resultRepo.getUniqueSeatNo(),
+      ]);
+      console.log(
+        `Found ${seatNos.length} unique seat numbers`.cyan.underline.bold
+      );
+      // Remove duplicate results
+      let id2Result: { [key: string]: Result } = {};
+      let uniqueSeatNo = new Set(seatNos.map((s) => s.seatNo));
+      data.forEach((r: Result) => {
+        if (uniqueSeatNo.has(r.seat_no)) return;
+        id2Result[r.seat_no] = r;
+      });
+      let filtered = Object.values(id2Result);
+      console.log(
+        `Orginal: ${data.length}. Filtered: ${filtered.length}`.cyan.underline
+          .bold
+      );
       await StudentResult.insertMany(
-        data.map(
+        Object.values(id2Result).map(
           (r: Result) => ({
             ...r,
             firstLang: r.first_lang,
@@ -54,7 +73,7 @@ export async function seed() {
             religiousEdu: r.religious_edu,
             nationalEdu: r.national_edu,
             ecoAndStats: r.eco_and_stats,
-            seatNno: r.seat_no,
+            seatNo: r.seat_no,
           }),
           {
             ordered: false,
