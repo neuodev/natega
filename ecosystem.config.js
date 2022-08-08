@@ -13,28 +13,54 @@ module.exports = {
   apps: [
     {
       ...common,
-      name: "natega-1",
+      name: "natega-1-1",
       env_production: {
         RUST_RUN_SERVER: true,
         RUST_START: 103_000,
+        RUST_END: 200_000,
+      },
+    },
+    {
+      ...common,
+      name: "natega-1-2",
+      env_production: {
+        RUST_START: 200_000,
         RUST_END: 300_000,
       },
     },
     {
       ...common,
-      name: "natega-2",
+      name: "natega-2-1",
       env_production: {
         ...commonEnv,
         RUST_START: 300_001,
+        RUST_END: 400_000,
+      },
+    },
+    {
+      ...common,
+      name: "natega-2-2",
+      env_production: {
+        ...commonEnv,
+        RUST_START: 400_001,
         RUST_END: 500_000,
       },
     },
     {
       ...common,
-      name: "natega-3",
+      name: "natega-3-1",
       env_production: {
         ...commonEnv,
         RUST_START: 500_001,
+        RUST_END: 600_000,
+      },
+    },
+    {
+      ...common,
+      name: "natega-3-2",
+      env_production: {
+        ...commonEnv,
+        RUST_START: 600_001,
         RUST_END: 700_000,
       },
     },
@@ -44,12 +70,21 @@ module.exports = {
       env_production: {
         ...commonEnv,
         RUST_START: 700_001,
-        RUST_END: 900_000,
+        RUST_END: 800_000,
       },
     },
     {
       ...common,
       name: "natega-5",
+      env_production: {
+        ...commonEnv,
+        RUST_START: 800_001,
+        RUST_END: 900_000,
+      },
+    },
+    {
+      ...common,
+      name: "natega-6",
       env_production: {
         ...commonEnv,
         RUST_START: 900_001,
