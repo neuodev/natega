@@ -10,3 +10,4 @@
 client/node_modules
 client/build
 node/node_modules
+node/.env

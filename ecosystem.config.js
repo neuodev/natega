@@ -13,7 +13,7 @@ module.exports = {
   apps: [
     {
       ...common,
-      name: "Natega 1",
+      name: "natega-1",
       env_production: {
         RUST_RUN_SERVER: true,
         RUST_START: 103_000,
@@ -22,7 +22,7 @@ module.exports = {
     },
     {
       ...common,
-      name: "Natega 2",
+      name: "natega-2",
       env_production: {
         ...commonEnv,
         RUST_START: 300_001,
@@ -31,7 +31,7 @@ module.exports = {
     },
     {
       ...common,
-      name: "Natega 3",
+      name: "natega-3",
       env_production: {
         ...commonEnv,
         RUST_START: 500_001,
@@ -40,7 +40,7 @@ module.exports = {
     },
     {
       ...common,
-      name: "Natega 4",
+      name: "natega-4",
       env_production: {
         ...commonEnv,
         RUST_START: 700_001,
@@ -49,7 +49,7 @@ module.exports = {
     },
     {
       ...common,
-      name: "Natega 5",
+      name: "natega-5",
       env_production: {
         ...commonEnv,
         RUST_START: 900_001,
