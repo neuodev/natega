@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/natega/static/css/main.07c9dd81.css",
+    "main.js": "/natega/static/js/main.5ed633ba.js",
+    "index.html": "/natega/index.html",
+    "main.07c9dd81.css.map": "/natega/static/css/main.07c9dd81.css.map",
+    "main.5ed633ba.js.map": "/natega/static/js/main.5ed633ba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.07c9dd81.css",
+    "static/js/main.5ed633ba.js"
+  ]
+}
