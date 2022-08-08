@@ -15,6 +15,7 @@ import {
 import { Box } from "@mui/system";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { SERVER } from "../constants";
 
 type Result = {
   name: string;
@@ -44,48 +45,66 @@ type Result = {
   percentage: string;
 };
 
-const SERVER = "http://64.227.26.187:8000/api/v1";
-
 function Search() {
-  let [results, setResults] = useState<Result[]>([]);
+  let [seatNmber, setSeatNumber] = useState<number | null>(null);
+  let [result, setResult] = useState<Result | null>();
   let [loading, setLoading] = useState<boolean>(false);
   let [error, setError] = useState<null | string>(null);
 
-  useEffect(() => {
-    (async () => {
-      // setLoading(true);
-      // try {
-      //   const res = await Promise.all(
-      //     files.map((f) => axios.get(`${SERVER}/static/${f}`))
-      //   );
-      //   const all: Result[] = [];
-      //   res.forEach((resp) => {
-      //     all.push(...resp.data);
-      //   });
-      //   console.log(all);
-      // } catch (error) {
-      //   const err = error as Error;
-      //   setError(err.message);
-      // }
-      // setLoading(false);
-    })();
-  }, []);
+  const search = async () => {
+    if (!seatNmber) return;
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`${SERVER}/search?seatNo=${seatNmber}`);
+      setResult(data);
+      setError(null);
+    } catch (error) {
+      let err = error as any;
+      setError(
+        err.response?.data?.message ? err.response.data.message : err.message
+      );
+    }
+    setLoading(false);
+  };
   return (
-    <Box sx={{ mt: "68px", height: "100vh" }}>
+    <Box sx={{ mt: "68px", height: "calc(100vh - 68px)" }}>
       <Box
         sx={{
-          height: "400px",
+          height: "300px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <TextField
-          sx={{ minWidth: "400px" }}
-          label="Seat Number"
-          helperText="Ex: 612198"
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <TextField
+            value={seatNmber || ""}
+            onChange={(e) => {
+              let val = Number(e.target.value);
+              if (isNaN(val)) return;
+              setSeatNumber(val);
+            }}
+            sx={{ minWidth: "400px", mr: "12px" }}
+            label="Seat Number"
+            helperText="Ex: 612198"
+          />
+
+          <Button
+            onClick={search}
+            sx={{ height: "56px" }}
+            variant="contained"
+            disabled={!seatNmber}
+          >
+            Search
+          </Button>
+        </Box>
       </Box>
+
       {loading ? (
         <Centered>
           <CircularProgress />
@@ -94,12 +113,12 @@ function Search() {
             Please wait
           </Typography>
           <Typography variant="body2" mt="8px">
-            Fetching data for students...
+            In progress...
           </Typography>
         </Centered>
       ) : error !== null ? (
         <Centered>
-          <Alert severity="error">
+          <Alert sx={{ minWidth: "500px" }} severity="error">
             <AlertTitle>Error!</AlertTitle>
             {error}
           </Alert>
@@ -112,7 +131,6 @@ function Search() {
 }
 
 const Centered = styled(Box)({
-  height: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
