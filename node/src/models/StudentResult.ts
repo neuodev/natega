@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
   seatNo: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },
@@ -25,11 +25,14 @@ const schema = new mongoose.Schema({
   biology: String,
   geology: String,
   physics: String,
-  total: String,
+  total: {
+    type: Number,
+    required: true,
+  },
   religiousEdu: String,
   nationalEdu: String,
   ecoAndStats: String,
-  percentage: String,
+  percentage: Number,
 });
 
 export default mongoose.model("studentResult", schema);

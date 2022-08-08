@@ -5,11 +5,15 @@ import "colors";
 
 const SERVER = "http://159.223.98.29";
 const files = [
-  "300000.json",
   "937001.json",
+  "300000.json",
   "500000.json",
+  "800000.json",
   "900000.json",
+  "200000.json",
   "700000.json",
+  "400000.json",
+  "600000.json",
 ];
 
 type Result = {
@@ -46,10 +50,7 @@ export async function seed() {
     console.log(`File ${file}`.cyan.underline.bold);
     try {
       const [{ data }, seatNos] = await Promise.all([
-        axios.get(`${SERVER}/static/${file}`, {
-          maxContentLength: Infinity,
-          maxBodyLength: Infinity,
-        }),
+        axios.get(`${SERVER}/static/${file}`),
         resultRepo.getUniqueSeatNo(),
       ]);
 
@@ -60,8 +61,8 @@ export async function seed() {
       let id2Result: { [key: string]: Result } = {};
       let uniqueSeatNo = new Set(seatNos.map((s) => s.seatNo));
       data.forEach((r: Result) => {
-        if (uniqueSeatNo.has(r.seat_no)) return;
-        id2Result[r.seat_no] = r;
+        if (uniqueSeatNo.has(Number(r.seat_no))) return;
+        id2Result[Number(r.seat_no)] = r;
       });
       let filtered = Object.values(id2Result);
       console.log(
