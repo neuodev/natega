@@ -10,10 +10,14 @@ export default async function connectDB() {
     }
 
     const conn = await mongoose.connect(uri, {});
-    console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
+    console.log(
+      `MongoDB Connected: db ${conn.connection.name} on ${conn.connection.port} `
+        .cyan.underline
+    );
   } catch (error) {
     if (error instanceof Error)
       console.error(`Error: ${error.message}`.red.underline.bold);
+    console.log(error);
     process.exit(1);
   }
 }

@@ -32,4 +32,4 @@ const schema = new mongoose.Schema({
   percentage: String,
 });
 
-const StudentResult = mongoose.model("studentResult", schema);
+export default mongoose.model("studentResult", schema);
