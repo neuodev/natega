@@ -1,4 +1,9 @@
-import StudentResult from "../models/StudentResult";
+import StudentResult, {
+  basicInfoMap,
+  gradesMap,
+  SEPERATOR,
+} from "../models/StudentResult";
+import { Result } from "../seed";
 
 class ResultUOW {
   async getUniqueSeatNo(): Promise<Array<{ seatNo: number }>> {
@@ -60,6 +65,67 @@ class ResultUOW {
         },
       },
     ]);
+  }
+
+  encode(result: Result) {
+    const {
+      name,
+      school,
+      org,
+      status,
+      kind,
+      branch,
+      arabic,
+      first_lang,
+      second_lang,
+      pure_math,
+      applied_math,
+      history,
+      geography,
+      philosophy,
+      pychology,
+      chemistry,
+      biology,
+      geology,
+      physics,
+    } = result;
+    let basicInfo = [name, school, org, status, kind, branch].join(SEPERATOR);
+    let grades = [
+      arabic,
+      first_lang,
+      second_lang,
+      pure_math,
+      applied_math,
+      history,
+      geography,
+      philosophy,
+      pychology,
+      chemistry,
+      biology,
+      geology,
+      physics,
+    ].join(SEPERATOR);
+
+    return {
+      basicInfo,
+      grades,
+    };
+  }
+
+  decode(encoded: { basicInfo: string; grades: string }) {
+    let { basicInfo, grades } = encoded;
+    let info = basicInfo.split(SEPERATOR);
+    let allGrades = grades.split(SEPERATOR);
+    let result: { [key: string]: string } = {};
+
+    info.forEach((val, idx) => {
+      result[basicInfoMap[idx]] = val;
+    });
+    allGrades.forEach((val, idx) => {
+      result[gradesMap[idx]] = val;
+    });
+
+    return result;
   }
 }
 

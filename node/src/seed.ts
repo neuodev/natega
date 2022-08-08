@@ -16,7 +16,7 @@ const files = [
   "600000.json",
 ];
 
-type Result = {
+export type Result = {
   name: string;
   school: string;
   org: string;
