@@ -26,6 +26,15 @@ export const gradesKeys = [
   "national_edu",
   "eco_and_stats",
 ];
+
+export type ResultDB = {
+  seatNo: number;
+  basicInfo: string;
+  grades: string;
+  total: number;
+  percentage: number;
+};
+
 const schema = new mongoose.Schema({
   seatNo: {
     type: Number,

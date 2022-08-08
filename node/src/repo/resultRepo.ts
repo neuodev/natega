@@ -1,6 +1,7 @@
 import StudentResult, {
   basicInfoKeys,
   gradesKeys,
+  ResultDB,
   SEPERATOR,
 } from "../models/StudentResult";
 import { Result } from "../seed";
@@ -11,7 +12,9 @@ class ResultUOW {
   }
 
   async findResult(seatNo: number) {
-    return StudentResult.findOne({ seatNo });
+    const res: ResultDB | null = await StudentResult.findOne({ seatNo });
+    if (!res) return null;
+    return this.decode(res);
   }
 
   async find(pageNum: number, pageSize: number) {
@@ -20,15 +23,23 @@ class ResultUOW {
       .sort({ total: -1 })
       .limit(pageSize)
       .skip(pageSize * (pageNum - 1));
-    return { results, pages: Math.ceil(count / pageSize) };
+
+    return {
+      results: results.map((res: any) => this.decode(res)),
+      pages: Math.ceil(count / pageSize),
+    };
   }
 
   async summary() {
     let numOfResults = await StudentResult.count();
     let maxResult = await StudentResult.find({}).sort({ total: -1 }).limit(1);
+
     return {
       numOfResults,
-      maxResult,
+      maxResult:
+        !maxResult || maxResult.length === 0
+          ? null
+          : this.decode(maxResult[0] as ResultDB),
     };
   }
 
@@ -119,7 +130,7 @@ class ResultUOW {
     };
   }
 
-  decode(encoded: { basicInfo: string; grades: string }) {
+  decode(encoded: ResultDB) {
     let { basicInfo, grades } = encoded;
     let info = basicInfo.split(SEPERATOR);
     let allGrades = grades.split(SEPERATOR);
@@ -132,7 +143,12 @@ class ResultUOW {
       result[gradesKeys[idx]] = val;
     });
 
-    return result;
+    return {
+      ...result,
+      seatNo: encoded.seatNo,
+      total: encoded.total,
+      percentage: encoded.percentage,
+    };
   }
 }
 
