@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/natega/static/css/main.07c9dd81.css",
-    "main.js": "/natega/static/js/main.35ae22e4.js",
-    "index.html": "/natega/index.html",
-    "main.07c9dd81.css.map": "/natega/static/css/main.07c9dd81.css.map",
-    "main.35ae22e4.js.map": "/natega/static/js/main.35ae22e4.js.map"
+    "main.css": "/static/css/main.07c9dd81.css",
+    "main.js": "/static/js/main.35ae22e4.js",
+    "index.html": "/index.html",
+    "main.07c9dd81.css.map": "/static/css/main.07c9dd81.css.map",
+    "main.35ae22e4.js.map": "/static/js/main.35ae22e4.js.map"
   },
   "entrypoints": [
     "static/css/main.07c9dd81.css",
